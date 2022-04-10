@@ -5,6 +5,16 @@
     font-family: 'Kanit', sans-serif;
 }
 
+div.cscroll
+{
+    margin:5px;
+    padding:5px;
+    width: 500px;
+    height: 200px;
+    overflow: auto;
+    text-align:justify;
+}
+
 .notification {
     -webkit-animation-name: notification;
     animation-name: notification;
@@ -19,22 +29,24 @@
     background: #FFF;
     position: fixed;
     border-radius: 5px;
-    padding: 20px;
+    padding: 10px;
     transition: .2s;
-    
-    align-item: center;
+}
+mark
+{
+    background: transparent;
+    padding: 0;
+    font-weight: bold;
 }
 
 .requst
 {
-    position: relative;
-    outline: none;
-    background-position: 10px 12px;
-    width: 100%;
-    font-size: 16px;
-    padding: 12px;
-    border: 1px solid #ddd;
-    margin-bottom: 12px;
+    margin:5px;
+    padding:5px;
+    width: 500px;
+    height: 300px;
+    overflow: auto;
+    text-align:justify;
 }
 
 
@@ -66,16 +78,16 @@
 .btn_b {
     position: relative;
     display: inline-block;
-    margin-top: 30px;
+    margin: 15px;
     padding: 10px 30px;
-    background: #242424;
+    background: #000000;
     color: #fff;
     border-radius: 5px;
     transition: .2s;
 }
 
 .btn_b:hover {
-    background: #b1abab;
+    background: #ffffff;
     color: #000;
     cursor: pointer;
 }
@@ -104,6 +116,12 @@
     font-size: 16px;
     transition-duration: 0.4s;
   }
+
+#hide_bt:hover {
+    background: #ffffff;
+    color: #000;
+    cursor: pointer;
+}
 
 * {
     box-sizing: border-box;
@@ -219,4 +237,49 @@ th, td,tr {
 
 .select select:disabled ~ .select_arrow {
     border-top-color: #cccccc;
+}
+
+div.requst form input 
+{
+    width: 100%;
+    height: 40px;
+    border-radius: 5px;
+    border: 1px solid #000000;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+div.requst form select 
+{
+    width: 100%;
+    height: 40px;
+    border-radius: 5px;
+    border: 1px solid #000000;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+div.requst form button 
+{
+    width: 100%;
+    color: #FFF;
+    background-color: rgb(28, 138, 240);
+    height: 40px;
+    border-radius: 5px;
+    border: 0px;
+    padding: 10px;
+    margin-bottom: 10px;
+    transition: .3s;
+}
+
+div.requst form button:hover
+{
+    background-color: rgb(255, 255, 255);
+    color: #000;
+    cursor: pointer;
+}
+
+div.requst form p
+{
+    padding: 5px;
 }

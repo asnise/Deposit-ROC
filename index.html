@@ -15,7 +15,7 @@
     <div class="notification_bg"></div>
     <div class="notification">
         <h1 id="heander"></h1>
-        <p id="content"></p>
+        <div id="content" class="cscroll"></div>
         <br>
         <a onclick="cansel_win('contact_alert')" class="btn_b">กลับ</a>
     </div>
@@ -32,6 +32,7 @@
     </div>
     <button onclick="hide()" id="hide_bt">ดูร้านค้าทั้งหมด</button>
     <button onclick="cansel_win('notification_alert')" id="hide_bt">ฝากร้าน</button>
+    <button onclick="cansel_win('edit_win')" id="hide_bt">แก้ไขหน้าร้าน</button>
     <div id="update"></div>
     <div id="demo"></div>
 
@@ -39,11 +40,12 @@
       <div class="notification_bg"></div>
       <div class="notification">
           <h1>ฝากร้าน</h1>
-          <p>
             <div class="requst">
               <form method="post" autocomplete="off" name="hello-sheet">
                 <input name="Market_name" type="text" placeholder="ชื่อร้าน" required>
+                <p>กรณีไอเทมหลายอย่างให้ขั้นด้วย <mark>" | "</mark> ตัวอย่าง <mark>Bow|Sword</mark></p>
                 <input name="Item_list" type="text" placeholder="ไอเทม" required>
+                <p>ให้ขั้นราคาไอเทมแต่ละชิ้นด้วย <mark>" | "</mark> ตัวอย่าง <mark>100|500</mark></p>
                 <input name="Item_price" type="text" placeholder="ราคาไอเทม" required>
                 <select id="location" name="Location">
                   <option>Al De Baran</option>
@@ -56,14 +58,16 @@
                   <option>Morroc</option>
                 </select>
                 <input name="XY" type="text" placeholder="X Y ร้าน" required>
+                <p>หลังจกตั้งร้าน ร้านนี้จะหมดอายุในกี่วัน</p>
                 <select id="Limit" name="Limit">
                   <option>3</option>
                   <option>7</option>
                 </select>
+                <p>*คักลอก PrivateKey ไว้ในกรณีจะแก้ไขหน้าร้าน*</p>
+                <input name="PrivateKey" id="pvk" value="0000-0000-0000" readonly="readonly">
                 <button type="submit">Send</button>
               </form>
             </div>
-          </p>
           <a onclick="cansel_win('notification_alert')" class="btn_b">กลับ</a>
       </div>
   </div>
@@ -81,6 +85,7 @@
       fetch(scriptURL, { method: 'POST', body: new FormData(form) })
         .then(response => console.log('Success!', response))
         .then(response => alert('Success!'))
+        .then(response => location.reload())
         .catch(error => console.error('Error!', error.message))
     })
   </script>

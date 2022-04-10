@@ -1,6 +1,6 @@
 var request = new XMLHttpRequest();
 var request_real = new XMLHttpRequest();
-request.open('GET', 'https://sheet.best/api/sheets/7f838c29-2a59-4a74-9069-c1bf189e5597', true);
+request.open('GET', 'https://script.googleusercontent.com/macros/echo?user_content_key=gRxDdjZOVmvO2G7WeKZFIgU8SIHICGVq7Rjz6wgpaEEY8-aYsDiDraOI14-eU8FcsjMw3XRG7b-Xnr0ql1DVpTSXCYJc60hWOJmA1Yb3SEsKFZqtv3DaNYcMrmhZHmUMWojr9NvTBuBLhyHCd5hHazNnvbOV55w0RsVtHYY1ZvvH9qMxe09Y9bc4aA956U7t6wK92U_zkdkbx-BDbZt9I7MGZLwgop3DU8hHdRllLdFpaU2NLWJpSwXIuFltvcj9bVKn3MpuO19m_4qgmdpvDQ&lib=MzHL0eFFhUhBN_5xdhbCQBuF_8U2xeTn-', true);
 var data_real = {}, soucre = {};
 var data_call = {};
 var ready_data = [];
@@ -55,10 +55,29 @@ function hide() {
     }
   }
 
+
+  const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+function generateString(length) {
+    let result = ' ';
+    const charactersLength = characters.length;
+    for ( let i = 0; i < length; i++ ) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+
+    return result;
+}
+
   function cansel_win(idtag,market_name) {
 	var win_alert = document.getElementById(idtag);
     var heander = document.getElementById("heander");
     var content = document.getElementById("content");
+
+    if(idtag == "notification_alert")
+    {
+        var Private_key = document.getElementById("pvk");
+        Private_key.value = generateString(4) + "-" + generateString(4) + "-" + generateString(4);
+    }
 
     ready_data = [];
 	if (win_alert.style.display === "block") {
@@ -68,7 +87,7 @@ function hide() {
 		win_alert.style.display = "block";
 	}
 
-    heander.innerText = data_call[market_name].Market_name;
+    heander.innerText = "ชื่อร้าน : " + data_call[market_name].Market_name;
 
     var item = data_call[market_name].Item_list
     var item_str = item.toString();
