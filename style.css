@@ -5,14 +5,13 @@
     font-family: 'Kanit', sans-serif;
 }
 
-div.cscroll
-{
-    margin:5px;
-    padding:5px;
+div.cscroll {
+    margin: 5px;
+    padding: 5px;
     width: 500px;
     height: 200px;
     overflow: auto;
-    text-align:justify;
+    text-align: justify;
 }
 
 .notification {
@@ -32,21 +31,20 @@ div.cscroll
     padding: 10px;
     transition: .2s;
 }
-mark
-{
+
+mark {
     background: transparent;
     padding: 0;
     font-weight: bold;
 }
 
-.requst
-{
-    margin:5px;
-    padding:5px;
+.requst {
+    margin: 5px;
+    padding: 5px;
     width: 500px;
     height: 300px;
     overflow: auto;
-    text-align:justify;
+    text-align: justify;
 }
 
 
@@ -105,7 +103,7 @@ mark
 }
 
 #hide_bt {
-    background: #000000; 
+    background: #000000;
     border-radius: 5px;
     border: none;
     color: white;
@@ -115,7 +113,7 @@ mark
     display: inline-block;
     font-size: 16px;
     transition-duration: 0.4s;
-  }
+}
 
 #hide_bt:hover {
     background: #ffffff;
@@ -126,8 +124,8 @@ mark
 * {
     box-sizing: border-box;
 }
-#capture_screen
-{
+
+#capture_screen {
     display: block;
 }
 
@@ -150,7 +148,9 @@ datalist {
     margin-bottom: 12px;
 }
 
-th, td,tr {
+th,
+td,
+tr {
     text-align: center;
     border-bottom: 1px solid #ddd;
 }
@@ -207,7 +207,8 @@ th, td,tr {
     display: none;
 }
 
-.select select:hover, .select select:focus {
+.select select:hover,
+.select select:focus {
     color: #707070;
     background: #d4d4d4;
 }
@@ -231,16 +232,16 @@ th, td,tr {
     -webkit-transform: rotate(45deg);
 }
 
-.select select:hover ~ .select_arrow, .select select:focus ~ .select_arrow {
+.select select:hover~.select_arrow,
+.select select:focus~.select_arrow {
     border-color: #000000;
 }
 
-.select select:disabled ~ .select_arrow {
+.select select:disabled~.select_arrow {
     border-top-color: #cccccc;
 }
 
-div.requst form input 
-{
+div.requst form input {
     width: 100%;
     height: 40px;
     border-radius: 5px;
@@ -249,8 +250,7 @@ div.requst form input
     margin-bottom: 10px;
 }
 
-div.requst form select 
-{
+div.requst form select {
     width: 100%;
     height: 40px;
     border-radius: 5px;
@@ -259,8 +259,7 @@ div.requst form select
     margin-bottom: 10px;
 }
 
-div.requst form button 
-{
+div.requst form button {
     width: 100%;
     color: #FFF;
     background-color: rgb(28, 138, 240);
@@ -272,14 +271,21 @@ div.requst form button
     transition: .3s;
 }
 
-div.requst form button:hover
-{
+div.requst form button:hover {
     background-color: rgb(255, 255, 255);
     color: #000;
+    border: 1px solid rgb(28, 138, 240);
     cursor: pointer;
 }
 
-div.requst form p
-{
+div.requst form p {
     padding: 5px;
+}
+
+.icon
+{
+    image-rendering: pixelated;
+    padding: 0;
+    margin: 0px 10px;
+    transform: translateY(10px);
 }

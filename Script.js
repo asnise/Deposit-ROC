@@ -87,13 +87,15 @@ function generateString(length) {
 		win_alert.style.display = "block";
 	}
 
+    if (market_name !== undefined) 
+    {
     heander.innerText = "ชื่อร้าน : " + data_call[market_name].Market_name;
-
     var item = data_call[market_name].Item_list
     var item_str = item.toString();
     var list_itm = item_str.split("|");
+    var price = data_call[market_name].Item_price;
+    
 
-    var price = data_call[market_name].Item_price
     var price_str = price.toString();
     var list_price = price_str.split("|");
 
@@ -102,7 +104,7 @@ function generateString(length) {
         ready_data.push(list_itm[i] + " | " + list_price[i]);
     }
     
-    console.log(ready_data);
+    //console.log(ready_data);
     content.innerHTML ="";
     let txt = '<table style="width:100%"><tr><th>ไอเทม</th><th>ราคา</th></tr>'
     let txt_sec = '';
@@ -113,6 +115,7 @@ function generateString(length) {
     }
     txt += "</table>"
     content.innerHTML = txt + txt_sec;
+}
 
 
-};
+}
