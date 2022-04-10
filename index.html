@@ -1,0 +1,87 @@
+<html>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="http://html2canvas.hertzen.com/dist/html2canvas.js"></script>
+<script src="http://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300&amp;display=swap" rel="stylesheet">
+<script src="Script.js"></script>
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="https://cdn.discordapp.com/attachments/620789873997119509/962335479120932934/icon.png"
+  type="image/icon type">
+<title>หน้าหลัก</title>
+
+<body>
+
+  <div class="contact_alert" id="contact_alert" style="display: none;">
+    <div class="notification_bg"></div>
+    <div class="notification">
+        <h1 id="heander"></h1>
+        <p id="content"></p>
+        <br>
+        <a onclick="cansel_win('contact_alert')" class="btn_b">กลับ</a>
+    </div>
+</div>
+
+  <h1>ต้องการจะการค้นหาสินค้าชิ้นใด</h1>
+  <center>
+    <datalist id="browsers">
+    </datalist>
+    <input list="browsers" name="browser" id="myInput" placeholder="ค้นหา ด้วยชื่อไอเทม.." value=""
+      onChange='send_item.call(this, event)'>
+    <div id="capture" style="padding: 10px;">
+      <div id="select_item"></div>
+    </div>
+    <button onclick="hide()" id="hide_bt">ดูร้านค้าทั้งหมด</button>
+    <button onclick="cansel_win('notification_alert')" id="hide_bt">ฝากร้าน</button>
+    <div id="update"></div>
+    <div id="demo"></div>
+
+    <div class="notification_alert" id="notification_alert">
+      <div class="notification_bg"></div>
+      <div class="notification">
+          <h1>ฝากร้าน</h1>
+          <p>
+            <div class="requst">
+              <form method="post" autocomplete="off" name="hello-sheet">
+                <input name="Market_name" type="text" placeholder="ชื่อร้าน" required>
+                <input name="Item_list" type="text" placeholder="ไอเทม" required>
+                <input name="Item_price" type="text" placeholder="ราคาไอเทม" required>
+                <select id="location" name="Location">
+                  <option>Al De Baran</option>
+                  <option>Alberta</option>
+                  <option>Comodo</option>
+                  <option>Izlude</option>
+                  <option>Payon</option>
+                  <option>Prontera</option>
+                  <option>Geffen</option>
+                  <option>Morroc</option>
+                </select>
+                <input name="XY" type="text" placeholder="X Y ร้าน" required>
+                <select id="Limit" name="Limit">
+                  <option>3</option>
+                  <option>7</option>
+                </select>
+                <button type="submit">Send</button>
+              </form>
+            </div>
+          </p>
+          <a onclick="cansel_win('notification_alert')" class="btn_b">กลับ</a>
+      </div>
+  </div>
+
+
+
+  </center>
+  <div id="capture_screen"></div>
+  <script>
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbzFjJBfGxhCvqX4j9RMoaRsozdMgdyg04juP3ic_cFVhu2h3dAZQZkGOkFttmmRUyvhUw/exec'
+    const form = document.forms['hello-sheet']
+
+    form.addEventListener('submit', e => {
+      e.preventDefault()
+      fetch(scriptURL, { method: 'POST', body: new FormData(form) })
+        .then(response => console.log('Success!', response))
+        .then(response => alert('Success!'))
+        .catch(error => console.error('Error!', error.message))
+    })
+  </script>
+</body>
