@@ -11,68 +11,113 @@
 
 <body>
 
+
+
+  <div class="notification_alert" id="notification_alert">
+    <div class="notification_bg"></div>
+    <div class="notification">
+      <h1>ฝากร้าน</h1>
+      <div class="requst">
+        <form method="post" autocomplete="off" name="hello-sheet">
+          <input name="Market_name" type="text" placeholder="ชื่อร้าน" required>
+          <p>กรณีไอเทมหลายอย่างให้ขั้นด้วย <mark>" | "</mark> ตัวอย่าง <mark>Bow|Sword</mark></p>
+          <input name="Item_list" type="text" placeholder="ไอเทม" required>
+          <p>ให้ขั้นราคาไอเทมแต่ละชิ้นด้วย <mark>" | "</mark> ตัวอย่าง <mark>100|500</mark></p>
+          <input name="Item_price" type="text" placeholder="ราคาไอเทม" required>
+          <select id="location" name="Location">
+            <option>Al De Baran</option>
+            <option>Alberta</option>
+            <option>Comodo</option>
+            <option>Izlude</option>
+            <option>Payon</option>
+            <option>Prontera</option>
+            <option>Geffen</option>
+            <option>Morroc</option>
+          </select>
+          <p>ใส่ตำแหน่งที่ตั้งร้าน <mark>X,Y</mark></p>
+          <input name="XY" type="text" pattern="[0-9]{1,4},[0-9]{1,4}" placeholder="X Y ร้าน" required>
+          <p>หลังจากตั้งร้าน ร้านนี้จะหมดอายุในกี่วัน</p>
+          <select id="Limit" name="Limit">
+            <option>3</option>
+            <option>7</option>
+          </select>
+          <p><mark>* คักลอก PrivateKey ไว้ในกรณีจะแก้ไขหน้าร้าน *</mark></p>
+          <input name="PrivateKey" id="pvk" value="0000-0000-0000" readonly="readonly">
+          <p><mark>* ห้ามสแปม *</mark></p>
+          <button type="submit" class="send">ตั้งร้าน</button>
+        </form>
+      </div>
+      <a onclick="cansel_win('notification_alert')" class="btn_b">กลับ</a>
+    </div>
+  </div>
+
   <div class="contact_alert" id="contact_alert" style="display: none;">
     <div class="notification_bg"></div>
     <div class="notification">
       <h1 id="heander"></h1>
+      <p id="loc_head"></p>
       <div id="content" class="cscroll"></div>
       <br>
       <a onclick="cansel_win('contact_alert')" class="btn_b">กลับ</a>
     </div>
   </div>
 
-  <h1><img class="icon" src="https://cdn.discordapp.com/attachments/620789873997119509/962335479120932934/icon.png" width="50px">ต้องการจะค้นหาสินค้าชิ้นใด</h1>
+  <div class="notification_alert" id="notification_edit">
+    <div class="notification_bg"></div>
+    <div class="notification">
+      <h1>แก้ไขหน้าร้าน</h1>
+      <div class="requst">
+        <form autocomplete="off" name="edit-sheet">
+          <input id="PrivateKey_send" type="text" placeholder="ใส่ PrivateKey เพื่อค้นหาร้าน" required>
+          <div class="send" onclick="requset_get()">ค้นหา</div>
+          <input name="Market_name" type="text" placeholder="ชื่อร้าน">
+          <input name="Item_list" type="text" placeholder="ไอเทม">
+          <input name="Item_price" type="text" placeholder="ราคาไอเทม">
+          <select id="location" name="Location">
+            <option>Al De Baran</option>
+            <option>Alberta</option>
+            <option>Comodo</option>
+            <option>Izlude</option>
+            <option>Payon</option>
+            <option>Prontera</option>
+            <option>Geffen</option>
+            <option>Morroc</option>
+          </select>
+          <input name="XY" type="text" pattern="[0-9]{1,4},[0-9]{1,4}" placeholder="X Y ร้าน">
+          <p>หลังจากตั้งร้าน ร้านนี้จะหมดอายุในกี่วัน</p>
+          <select id="Limit" name="Limit">
+            <option>3</option>
+            <option>7</option>
+          </select>
+          <div type="submit" class="send">บันทึก</div>
+          <div class="deleted">ลบ</div>
+        </form>
+      </div>
+      <a onclick="cansel_win('notification_edit')" class="btn_b">กลับ</a>
+    </div>
+  </div>
+
+  <h1><img class="icon" src="https://cdn.discordapp.com/attachments/620789873997119509/962335479120932934/icon.png"
+      width="50px">ต้องการจะค้นหาสินค้าชิ้นใด</h1>
   <center>
     <datalist id="browsers">
     </datalist>
-    <input list="browsers" name="browser" id="myInput" placeholder="ค้นหา ด้วยชื่อไอเทม.." value=""
-      onChange='send_item.call(this, event)'>
-    <div id="capture" style="padding: 10px;">
-      <div id="select_item"></div>
-    </div>
-    <button onclick="hide()" id="hide_bt">ดูร้านค้าทั้งหมด</button>
+    <input list="browsers" name="browser" id="myInput" placeholder="ค้นหา ด้วยชื่อไอเทม.." value="">
+    <button onclick='send_item.call(this, event)' id="hide_bt">ค้นหา</button>
+    <br>
+    <div id="select_item"></div>
+    <button onclick="refresh()" id="hide_bt">รีแฟลชหน้าร้าน</button>
     <button onclick="cansel_win('notification_alert')" id="hide_bt">ฝากร้าน</button>
-    <button onclick="cansel_win('edit_win')" id="hide_bt">แก้ไขหน้าร้าน</button>
-    <div id="update"></div>
+    <button onclick="cansel_win('notification_edit')" id="hide_bt">แก้ไขหน้าร้าน</button>
+    <br>
+    <div id="box_check">
+      <input type="checkbox" id="store_all" name="store_all" onchange="hide()">
+      <label for="store_all">แสดงร้านค้าทั้งหมด</label><br>
+    </div>
     <div id="demo"></div>
     <p>Copyright ©2022 Nattaset Panlek</p>
 
-    <div class="notification_alert" id="notification_alert">
-      <div class="notification_bg"></div>
-      <div class="notification">
-        <h1>ฝากร้าน</h1>
-        <div class="requst">
-          <form method="post" autocomplete="off" name="hello-sheet">
-            <input name="Market_name" type="text" placeholder="ชื่อร้าน" required>
-            <p>กรณีไอเทมหลายอย่างให้ขั้นด้วย <mark>" | "</mark> ตัวอย่าง <mark>Bow|Sword</mark></p>
-            <input name="Item_list" type="text" placeholder="ไอเทม" required>
-            <p>ให้ขั้นราคาไอเทมแต่ละชิ้นด้วย <mark>" | "</mark> ตัวอย่าง <mark>100|500</mark></p>
-            <input name="Item_price" type="text" placeholder="ราคาไอเทม" required>
-            <select id="location" name="Location">
-              <option>Al De Baran</option>
-              <option>Alberta</option>
-              <option>Comodo</option>
-              <option>Izlude</option>
-              <option>Payon</option>
-              <option>Prontera</option>
-              <option>Geffen</option>
-              <option>Morroc</option>
-            </select>
-            <p>ใส่ตำแหน่งที่ตั้งร้าน <mark>X,Y</mark></p>
-            <input name="XY" type="text" pattern="[0-9]{1,4},[0-9]{1,4}" placeholder="X Y ร้าน" required>
-            <p>หลังจากตั้งร้าน ร้านนี้จะหมดอายุในกี่วัน</p>
-            <select id="Limit" name="Limit">
-              <option>3</option>
-              <option>7</option>
-            </select>
-            <p><mark>* คักลอก PrivateKey ไว้ในกรณีจะแก้ไขหน้าร้าน *</mark></p>
-            <input name="PrivateKey" id="pvk" value="0000-0000-0000" readonly="readonly">
-            <button type="submit">ตั้งร้าน</button>
-          </form>
-        </div>
-        <a onclick="cansel_win('notification_alert')" class="btn_b">กลับ</a>
-      </div>
-    </div>
+
 
 
 
@@ -81,26 +126,19 @@
   <script>
     const scriptURL = 'https://script.google.com/macros/s/AKfycbzFjJBfGxhCvqX4j9RMoaRsozdMgdyg04juP3ic_cFVhu2h3dAZQZkGOkFttmmRUyvhUw/exec'
     const form = document.forms['hello-sheet']
-    var Limit_store = [{KeyPV: "0000-0000-0000"}];
 
-    console.log(Limit_store);
+
+
+    
     form.addEventListener('submit', e => {
       e.preventDefault()
+      
       fetch(scriptURL, { method: 'POST', body: new FormData(form) })
         .then(response => console.log('Success!', response))
+        .then(response => console.log(Date.now()))
         .then(response => alert('Success!'))
-        .then(response => localStorage.setItem("limit_store", JSON.stringify(Limit_store)))
         .then(response => location.reload())
         .catch(error => console.error('Error!', error.message))
     })
-
-    function onlyNumberKey(evt) {
-
-      // Only ASCII character in that range allowed
-      var ASCIICode = (evt.which) ? evt.which : evt.keyCode
-      if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57))
-        return false;
-      return true;
-    }
   </script>
 </body>
