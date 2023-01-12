@@ -7,6 +7,21 @@ var ready_data = [];
 var heander_contact = [];
 var option_group = [];
 var option_list = [];
+
+var viwer;
+
+var xhr = new XMLHttpRequest();
+xhr.open("GET", "https://api.countapi.xyz/hit/asnise.github.io/visits_roc");
+xhr.responseType = "json";
+xhr.onload = function() {
+
+
+    document.getElementById("visits").innerHTML = "จำนวนผู้เข้าชมเว็บ : " +  this.response.value;
+
+}
+xhr.send();
+
+
 request.send();
 request.onload = function () {
     if (request.status >= 200 && request.status < 400) {
@@ -80,6 +95,7 @@ function generateString(length) {
 var currentTime = new Date();
 currentTime.setHours(24)
 var month_ = currentTime.getMonth() + 1;
+
 
 
 function cansel_win(idtag, market_name) {
