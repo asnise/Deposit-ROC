@@ -1,7 +1,5 @@
 <html>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="http://html2canvas.hertzen.com/dist/html2canvas.js"></script>
-<script src="http://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300&amp;display=swap" rel="stylesheet">
 <script src="Script.js"></script>
 <link rel="stylesheet" href="style.css">
@@ -20,10 +18,15 @@
       <div class="requst">
         <form method="post" autocomplete="off" name="hello-sheet">
           <input name="Market_name" type="text" placeholder="ชื่อร้าน" required>
-          <p>กรณีไอเทมหลายอย่างให้ขั้นด้วย <mark>" | "</mark> ตัวอย่าง <mark>Bow|Sword</mark></p>
-          <input name="Item_list" type="text" placeholder="ไอเทม" required>
-          <p>ให้ขั้นราคาไอเทมแต่ละชิ้นด้วย <mark>" | "</mark> ตัวอย่าง <mark>100|500</mark></p>
-          <input name="Item_price" type="text" placeholder="ราคาไอเทม" required>
+          <div class="manule" id="panel_">
+            <p for="myfile">อัปโหลดไฟล์โดยการ<mark> " ตั้งร้าน " </mark>แล้วใช้คำสั่ง <br><mark>" /savechat "</mark>
+              ตามลำดับ</p>
+            <input type="file" id="myfile" name="myfile" required>
+            <div class="parameter">
+              <input name="Item_list" id="Item_list_id" type="text" value="__" required readonly="readonly">
+              <input name="Item_price" id="Item_price_id" type="text" value="__" required readonly="readonly">
+            </div>
+          </div>
           <select id="location" name="Location">
             <option>Al De Baran</option>
             <option>Alberta</option>
@@ -34,17 +37,14 @@
             <option>Geffen</option>
             <option>Morroc</option>
           </select>
-          <p>ใส่ตำแหน่งที่ตั้งร้าน <mark>X,Y</mark></p>
-          <input name="XY" type="text" pattern="[0-9]{1,4},[0-9]{1,4}" placeholder="X Y ร้าน" required>
-          <p>หลังจากตั้งร้าน ร้านนี้จะหมดอายุในกี่วัน</p>
-          <select id="Limit" name="Limit">
-            <option>3</option>
-            <option>7</option>
-          </select>
+          <p>ใส่ตำแหน่งที่ตั้งร้าน <mark>X,Y</mark></p><input name="XY" type="text" pattern="[0-9]{1,4},[0-9]{1,4}"
+            placeholder="X Y ร้าน" required>
+          <p>หลังจากตั้งร้าน ร้านนี้จะหมดอายุใน 24 ชม.</p>
+          <input name="Limit" id="time_limit" value="----" readonly="readonly">
           <p><mark>* คักลอก PrivateKey ไว้ในกรณีจะแก้ไขหน้าร้าน *</mark></p>
           <input name="PrivateKey" id="pvk" value="0000-0000-0000" readonly="readonly">
           <p><mark>* ห้ามสแปม *</mark></p>
-          <button type="submit" class="send">ตั้งร้าน</button>
+          <button type="submit" id="sending" class="send">ตั้งร้าน</button>
         </form>
       </div>
       <a onclick="cansel_win('notification_alert')" class="btn_b">กลับ</a>
@@ -67,29 +67,13 @@
     <div class="notification">
       <h1>แก้ไขหน้าร้าน</h1>
       <div class="requst">
-        <form autocomplete="off" name="edit-sheet">
+        <form autocomplete="off" name="edit-sheet" onsubmit="runModifyColumnC(event)">
           <input id="PrivateKey_send" type="text" placeholder="ใส่ PrivateKey เพื่อค้นหาร้าน" required>
           <div class="send" onclick="requset_get()">ค้นหา</div>
-          <input name="Market_name" type="text" placeholder="ชื่อร้าน">
-          <input name="Item_list" type="text" placeholder="ไอเทม">
-          <input name="Item_price" type="text" placeholder="ราคาไอเทม">
-          <select id="location" name="Location">
-            <option>Al De Baran</option>
-            <option>Alberta</option>
-            <option>Comodo</option>
-            <option>Izlude</option>
-            <option>Payon</option>
-            <option>Prontera</option>
-            <option>Geffen</option>
-            <option>Morroc</option>
-          </select>
-          <input name="XY" type="text" pattern="[0-9]{1,4},[0-9]{1,4}" placeholder="X Y ร้าน">
-          <p>หลังจากตั้งร้าน ร้านนี้จะหมดอายุในกี่วัน</p>
-          <select id="Limit" name="Limit">
-            <option>3</option>
-            <option>7</option>
-          </select>
-          <div type="submit" class="send">บันทึก</div>
+          <input id="name_edit" name="Market_name" type="text" placeholder="ชื่อร้าน">
+          <input id="Item_list_edit" name="Item_list" type="text" placeholder="ไอเทม">
+          <input id="price_edit" name="Item_price" type="text" placeholder="ราคาไอเทม">
+          <input type="submit" id="sending" class="send" value="บันทึก">
           <div class="deleted">ลบ</div>
         </form>
       </div>
@@ -118,21 +102,76 @@
     <p>Copyright ©2022 Nattaset Panlek</p>
 
 
-
-
-
+    <p id="output"></p>
   </center>
   <div id="capture_screen"></div>
   <script>
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbzFjJBfGxhCvqX4j9RMoaRsozdMgdyg04juP3ic_cFVhu2h3dAZQZkGOkFttmmRUyvhUw/exec'
+    const prefix = "AKfycbx8MmYmJxWqjT2Znyuf7f7qzgfy6sk7vYNSRI0G1Y167l_S5rFYezxIxIq0GGYS_ms_NQ";
+    const scriptURL = `https://script.google.com/macros/s/${prefix}/exec`
     const form = document.forms['hello-sheet']
 
+    function runModifyColumnC(event) {
+    event.preventDefault();
 
+    var privateKeyValue = document.getElementById("PrivateKey_send").value;
+    var name_edit = document.getElementById("name_edit").value;
+    var item_lise_edit = document.getElementById("Item_list_edit").value;
+    var price_edit = document.getElementById("price_edit").value;
 
+    fetch(`https://script.google.com/macros/s/${prefix}/exec?func_=edit&privateKeyValue=${privateKeyValue}&name_shop=${name_edit}&item_lise_edit=${item_lise_edit}&price_edit=${price_edit}`)
+      .then(response => response.text())
+      .then(response => alert(name_edit +" : " + item_lise_edit +" : " + price_edit))
+      .then(response => location.reload())
+      .then(data => {
+        console.log(data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
     
+    const myfile = document.getElementById('myfile')
+    const send_bt = document.getElementById('sending').disabled = false
+      myfile.addEventListener('change', function () {
+        console.log(myfile.files[0]);
+      var fr = new FileReader();
+      fr.onload = function () {
+        var data;
+        data = fr.result.split("======================  SALE LIST  ======================");
+        var first = data[1].split('============================ ============================');
+        var second = first[0].toString().replaceAll("    ", '').replaceAll("Commission : 1 EA = 0 Zeny", '').replaceAll("\r", '').split('\n');
+        var Item_list = [];
+        var Item_price = [];
+
+        var compress_itm
+        var compress_pr
+        const newArr = second.filter((a) => a);
+        newArr.pop();
+
+        for (var item in newArr) {
+          var sub_cut = []
+          sub_cut = newArr[item].split(':');
+          Item_list.push(sub_cut[0].toString().replaceAll("  ", ''));
+          Item_price.push(sub_cut[1].toString().replaceAll("  ", '').replaceAll("Zeny", ''));
+        }
+
+        for (var i in Item_list) {
+          compress_itm += Item_list[i].toString() + "|"
+          compress_pr += Item_price[i].toString() + "|"
+        }
+        document.getElementById('Item_list_id').value = compress_itm.replaceAll("undefined", '').slice(0, -1);
+        document.getElementById('Item_price_id').value = compress_pr.replaceAll("undefined", '').replaceAll(",", '').slice(0, -1);
+
+
+      }
+
+      fr.readAsText(this.files[0]);
+    })
+    
+
     form.addEventListener('submit', e => {
-      e.preventDefault()
-      
+      send_bt.disabled = true;
+      e.preventDefault();
       fetch(scriptURL, { method: 'POST', body: new FormData(form) })
         .then(response => console.log('Success!', response))
         .then(response => console.log(Date.now()))
@@ -141,4 +180,5 @@
         .catch(error => console.error('Error!', error.message))
     })
   </script>
+
 </body>

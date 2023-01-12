@@ -75,6 +75,13 @@ function generateString(length) {
     return result;
 }
 
+
+
+var currentTime = new Date();
+currentTime.setHours(24)
+var month_ = currentTime.getMonth() + 1;
+
+
 function cansel_win(idtag, market_name) {
     var win_alert = document.getElementById(idtag);
     var heander = document.getElementById("heander");
@@ -82,10 +89,12 @@ function cansel_win(idtag, market_name) {
 
 
 
-
     if (idtag == "notification_alert") {
         var Private_key = document.getElementById("pvk");
         Private_key.value = generateString(4) + "-" + generateString(4) + "-" + generateString(4);
+
+        var time_limit = document.getElementById("time_limit");
+        time_limit.value = currentTime.getDate() + "/" + month_ + "/" + currentTime.getFullYear() + ", " + currentTime.getHours() + ":" + currentTime.getMinutes() + ":" + currentTime.getSeconds();
     }
 
     ready_data = [];
@@ -159,13 +168,16 @@ function requset_get(event) {
     for (const [key, value] of Object.entries(data_call)) {
         if (value.Private_key === res_send) {
             form.elements['Market_name'].value = data_call[key].Market_name;
-            form.elements['Location'].value = data_call[key].Location;
-            form.elements['XY'].value = data_call[key].XY;
             form.elements['Item_list'].value = data_call[key].Item_list;
             form.elements['Item_price'].value = data_call[key].Item_price;
         }
 
     }
 }
+
+
+
+
+
 
 
