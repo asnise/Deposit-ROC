@@ -103,6 +103,57 @@ mark {
     transform: scale(100);
 }
 
+.floating-btn {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+  }
+  
+  .floating-btn a {
+    background: #000000;
+    border-radius: 5px;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    transition-duration: 0.4s;
+  }
+  .floating-btn a:hover {
+  background: #ffffff;
+  color: #000;
+  cursor: pointer;
+  }
+
+#load_screen
+{
+    display: none;
+}
+
+.load_text
+{
+    color: #fff;
+    z-index: 50;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.load
+{
+    
+    z-index: 2;
+    background: rgb(0, 0, 0, .95);
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    transform: scale(100);
+}
+
 #hide_bt {
     background: #000000;
     border-radius: 5px;

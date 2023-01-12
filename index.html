@@ -10,7 +10,10 @@
 <body>
 
 
-
+  <div id="load_screen">
+    <p class="load_text">ระบบกำลังบันทึกข้อมูลกรุณารอสักครู่...</p>
+  <div class="load"></div>
+  </div>
   <div class="notification_alert" id="notification_alert">
     <div class="notification_bg"></div>
     <div class="notification">
@@ -39,7 +42,7 @@
           </select>
           <p>ใส่ตำแหน่งที่ตั้งร้าน <mark>X,Y</mark></p><input name="XY" type="text" pattern="[0-9]{1,4},[0-9]{1,4}"
             placeholder="X Y ร้าน" required>
-          <p>หลังจากตั้งร้าน ร้านนี้จะหมดอายุใน 24 ชม.</p>
+          <p>หลังจากตั้งร้าน ร้านนี้จะหมดอายุหลังจากวันที่</p>
           <input name="Limit" id="time_limit" value="----" readonly="readonly">
           <p><mark>* คักลอก PrivateKey ไว้ในกรณีจะแก้ไขหน้าร้าน *</mark></p>
           <input name="PrivateKey" id="pvk" value="0000-0000-0000" readonly="readonly">
@@ -74,15 +77,19 @@
           <input id="Item_list_edit" name="Item_list" type="text" placeholder="ไอเทม">
           <input id="price_edit" name="Item_price" type="text" placeholder="ราคาไอเทม">
           <input type="submit" id="sending" class="send" value="บันทึก">
-          <div class="deleted">ลบ</div>
+          <div class="deleted" onclick="runDeleteRowData()">ลบหน้าร้าน</div>
         </form>
       </div>
       <a onclick="cansel_win('notification_edit')" class="btn_b">กลับ</a>
     </div>
   </div>
 
-  <h1><img class="icon" src="https://cdn.discordapp.com/attachments/620789873997119509/962335479120932934/icon.png"
-      width="50px">ต้องการจะค้นหาสินค้าชิ้นใด</h1>
+  <div class="floating-btn">
+  <a href="donate.html" target="_blank">ซื้อกาแฟ</a>
+</div>
+
+  <h1><img class="icon" src="https://cdn.discordapp.com/attachments/620789873997119509/962335479120932934/icon.png" width="50px">ต้องการจะค้นหาสินค้าชิ้นใด</h1>
+      
   <center>
     <datalist id="browsers">
     </datalist>
@@ -106,34 +113,59 @@
   </center>
   <div id="capture_screen"></div>
   <script>
-    const prefix = "AKfycbx8MmYmJxWqjT2Znyuf7f7qzgfy6sk7vYNSRI0G1Y167l_S5rFYezxIxIq0GGYS_ms_NQ";
+    const prefix = "AKfycbzBMSUAkMiemTBbn90Wmw2P_JKRXLJPxeALYG_HRy6HNwArQShPJ8P6dtpy73jP16jxYQ";
     const scriptURL = `https://script.google.com/macros/s/${prefix}/exec`
     const form = document.forms['hello-sheet']
 
+    function runDeleteRowData() {
+      var privateKeyValue = document.getElementById("PrivateKey_send").value;
+      fetch(`https://script.google.com/macros/s/${prefix}/exec?func_=deleted&privateKeyValue=${privateKeyValue}`)
+        .then(response => response.text())
+        .then(response => location.reload())
+        .then(data => {
+          console.log(data);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+
     function runModifyColumnC(event) {
-    event.preventDefault();
+      event.preventDefault();
 
-    var privateKeyValue = document.getElementById("PrivateKey_send").value;
-    var name_edit = document.getElementById("name_edit").value;
-    var item_lise_edit = document.getElementById("Item_list_edit").value;
-    var price_edit = document.getElementById("price_edit").value;
+      protect_metod("notification_edit","none");
+      protect_metod("load_screen","block");
 
-    fetch(`https://script.google.com/macros/s/${prefix}/exec?func_=edit&privateKeyValue=${privateKeyValue}&name_shop=${name_edit}&item_lise_edit=${item_lise_edit}&price_edit=${price_edit}`)
-      .then(response => response.text())
-      .then(response => alert(name_edit +" : " + item_lise_edit +" : " + price_edit))
-      .then(response => location.reload())
-      .then(data => {
-        console.log(data);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }
-    
+      var privateKeyValue = document.getElementById("PrivateKey_send").value;
+      var name_edit = document.getElementById("name_edit").value;
+      var item_lise_edit = document.getElementById("Item_list_edit").value;
+      var price_edit = document.getElementById("price_edit").value;
+
+      var Item_list_check = [];
+      var Item_price_check = [];
+
+      Item_list_check = item_lise_edit.split('|');
+      Item_price_check = price_edit.split('|');
+      if (Item_list_check.length == Item_price_check.length) {
+        fetch(`https://script.google.com/macros/s/${prefix}/exec?func_=edit&privateKeyValue=${privateKeyValue}&name_shop=${name_edit}&item_lise_edit=${item_lise_edit}&price_edit=${price_edit}`)
+          .then(response => response.text())
+          .then(response => location.reload())
+          .then(data => {
+            console.log(data);
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      }
+      else {
+        alert("ข้อมูลไม่ถูกต้อง");
+      }
+    }
+
     const myfile = document.getElementById('myfile')
     const send_bt = document.getElementById('sending').disabled = false
-      myfile.addEventListener('change', function () {
-        console.log(myfile.files[0]);
+    myfile.addEventListener('change', function () {
+      console.log(myfile.files[0]);
       var fr = new FileReader();
       fr.onload = function () {
         var data;
@@ -167,15 +199,29 @@
 
       fr.readAsText(this.files[0]);
     })
-    
+
+    function protect_metod(id,status)
+    {
+      var win_alert = document.getElementById(id);
+      win_alert.style.display = status;
+
+    }
 
     form.addEventListener('submit', e => {
       send_bt.disabled = true;
+      protect_metod("notification_alert","none");
+      protect_metod("load_screen","block");
       e.preventDefault();
+      
+
+
       fetch(scriptURL, { method: 'POST', body: new FormData(form) })
         .then(response => console.log('Success!', response))
         .then(response => console.log(Date.now()))
-        .then(response => alert('Success!'))
+        .catch(error => console.error('Error!', error.message))
+
+        fetch(fetch(`https://script.google.com/macros/s/${prefix}/exec?func_=UpdateOld`))
+        .then(response => console.log('Success!', response))
         .then(response => location.reload())
         .catch(error => console.error('Error!', error.message))
     })
