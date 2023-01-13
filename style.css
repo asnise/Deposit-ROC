@@ -5,6 +5,53 @@
     font-family: 'Kanit', sans-serif;
 }
 
+.menu-btn {
+    position: fixed;
+    bottom: 130px;
+    left: 50px;
+    background-color: #5600ff;
+    color: #fff;
+    padding: 15px 40px;
+    border-radius: 5px;
+    cursor: pointer;
+    border: solid 1px #5600ff;
+    transition: 0.2s;
+}
+.menu-btn:hover {
+    background-color: rgba(0,0,0,.0);
+    color: #5600ff;
+    cursor: pointer;
+    border: solid 1px #5600ff;
+}
+
+.menu-dropdown {
+  position: fixed;
+  bottom: 180px;
+  left: 30px;
+  display: none;
+}
+
+
+
+.menu-item {
+    background-color: rgba(0,0,0,.0);
+    color: #5600ff;
+    width: 100px;
+    text-align: center;
+    border: solid 1px #5600ff;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.2s;
+    margin: 5px;
+    padding: 10px;
+}
+
+.menu-item:hover {
+  background-color: #5600ff;
+  color: #fff;
+}
+
+
 div.cscroll {
     margin: 5px;
     padding: 5px;
@@ -47,6 +94,28 @@ mark {
     text-align: justify;
 }
 
+.tag {
+    font-size: 16px;
+    padding: 2px 20px;
+    margin: 2px;
+    border-radius: 6px;
+    display: inline-block;
+    background-color: #a9c4ff;
+}
+
+.tag p{
+    display: inline-block;
+    padding: 2px;
+}
+
+
+
+.close {
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 10;
+}
 
 @-webkit-keyframes notification {
     0% {
@@ -92,7 +161,7 @@ mark {
 }
 
 .notification_bg {
-    z-index: 2;
+    z-index: 9;
     background: rgb(0, 0, 0, .4);
     position: fixed;
     width: 500px;
@@ -120,11 +189,13 @@ mark {
     display: inline-block;
     font-size: 16px;
     transition-duration: 0.4s;
+    border: solid 1px #000;
   }
   .floating-btn a:hover {
-  background: #ffffff;
+background-color: rgba(0,0,0,.0);
   color: #000;
   cursor: pointer;
+  border: solid 1px #000;
   }
 
 #load_screen
@@ -145,7 +216,7 @@ mark {
 .load
 {
     
-    z-index: 2;
+    z-index: 49;
     background: rgb(0, 0, 0, .95);
     position: fixed;
     width: 100%;
@@ -183,6 +254,7 @@ mark {
 }
 
 body {
+    background-color: #fff;
     font: 16px Arial;
 }
 
@@ -190,7 +262,9 @@ datalist {
     width: 100%;
 }
 
-#myInput {
+
+#search-input, #select-box {
+    background-color: rgba(0, 0, 0, .0);
     outline: none;
     background-position: 10px 12px;
     background-repeat: no-repeat;
@@ -199,6 +273,30 @@ datalist {
     padding: 12px 20px 12px 40px;
     border: 1px solid #ddd;
     margin-bottom: 12px;
+    color: #333;
+
+    /* Add common styles here */
+    box-sizing: border-box;
+}
+
+#search-input {
+    position: relative;
+    z-index: 5;
+}
+
+#select-box {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 4;
+}
+
+
+#search-input:focus, #select-box:focus {
+    /* Add focus styles here */
+    border-color: #333;
+    outline: none;
 }
 
 th,
@@ -342,7 +440,7 @@ div.requst form select {
     background-color: rgb(28, 138, 240);
     height: 40px;
     border-radius: 5px;
-    border: 0px;
+    border: none;
     padding: 10px;
     margin-bottom: 10px;
     transition: .3s;
@@ -361,6 +459,7 @@ div.requst form select {
     padding: 0;
     margin: 0 30px;
 }
+
 
 .deleted
 {

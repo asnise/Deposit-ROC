@@ -10,6 +10,9 @@ var option_list = [];
 
 var viwer;
 
+
+
+
 var xhr = new XMLHttpRequest();
 xhr.open("GET", "https://api.countapi.xyz/hit/asnise.github.io/visits_roc");
 xhr.responseType = "json";
@@ -20,6 +23,8 @@ xhr.onload = function() {
 
 }
 xhr.send();
+
+
 
 
 request.send();
@@ -43,7 +48,7 @@ request.onload = function () {
             heander_contact.push(i.Market_name);
         }
 
-        let text_op = ''
+
         for (let x in data_call) {
             for (let i in data_call[x].Item_list_arry) {
                 option_group.push(data_call[x].Item_list_arry[i]);
@@ -54,12 +59,6 @@ request.onload = function () {
             if (option_list.indexOf(option_group[i]) < 0) option_list.push(option_group[i]);
         }
 
-        for (let i in option_list) {
-            text_op += "<option>" + option_list[i] + "</option>";
-        }
-
-        text_op += "</select>"
-        document.getElementById("browsers").innerHTML = text_op;
 
 
         let txt = '<table id="main_Table" style="width:100%"><tr><th>ชื่อร้าน</th><th>ที่เมือง</th><th>X,Y</th><th>เปิดร้าน</th></tr>'
@@ -164,8 +163,12 @@ function hide() {
     }
 }
 
+
+
+
+
 function send_item(event) {
-    var res_send = document.getElementById("myInput").value;
+    var res_send = document.getElementById("search-input").value;
     let txt = '<table id="main_Table" style="width:100%"><tr><th>ชื่อร้าน</th><th>ที่เมือง</th><th>X,Y</th><th>เปิดร้าน</th></tr>'
     let txt_sec = '';
     for (const [key, value] of Object.entries(data_call)) {
@@ -178,17 +181,63 @@ function send_item(event) {
     document.getElementById("select_item").style.display = "block";
 }
 
+var item_list_dummy = [];
+var Item_price_dummy = [];
+
 function requset_get(event) {
     const form = document.forms['edit-sheet']
-    var res_send = document.getElementById("PrivateKey_send").value;
+    var res_send = document.getElementById("PrivateKey_send");
     for (const [key, value] of Object.entries(data_call)) {
-        if (value.Private_key === res_send) {
+        if (value.Private_key === res_send.value) {
+
             form.elements['Market_name'].value = data_call[key].Market_name;
-            form.elements['Item_list'].value = data_call[key].Item_list;
-            form.elements['Item_price'].value = data_call[key].Item_price;
+
+            item_list_dummy = data_call[key].Item_list.split('|');
+
+            Item_price_dummy = data_call[key].Item_price.split('|');
         }
 
     }
+    
+    var tagsContainer = document.getElementById("tags-container");
+    if(tagsContainer){
+        item_list_dummy.forEach(function(value, i) {
+            var tag = document.createElement("div");
+            tag.classList.add("tag");
+            tag.id = "tag-" + i;
+    
+            var p = document.createElement("p");
+            p.innerHTML = value;
+            tag.appendChild(p);
+
+            var input = document.createElement("input");
+            input.type = "text";
+            input.style.width = "100px";
+            input.style.height = "20px";
+            input.value = "" + Item_price_dummy[i];
+            tag.appendChild(input);
+    
+            var closeBtn = document.createElement("span");
+            closeBtn.classList.add("close");
+            closeBtn.innerHTML = "&times;";
+            closeBtn.addEventListener("click", function() {
+                this.parentNode.remove();
+            });
+    
+            tag.appendChild(closeBtn);
+            tagsContainer.appendChild(tag);
+
+        });
+    }
+
+
+}
+
+
+
+function removeTag(i) {
+    var tag = document.getElementById("tag-" + i);
+    tag.parentNode.removeChild(tag);
 }
 
 
